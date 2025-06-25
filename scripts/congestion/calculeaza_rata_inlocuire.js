@@ -6,7 +6,7 @@ import { parse } from "csv-parse/sync";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const filePath = path.join(__dirname, '../../database/ins/date_ins.csv');
+const filePath = path.join(__dirname, '../../data/ins/date_ins.csv');
 
 const csvRaw = fs.readFileSync(filePath, "utf8");
 const records = parse(csvRaw, { columns: true, skip_empty_lines: true });
