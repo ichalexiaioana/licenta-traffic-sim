@@ -34,5 +34,5 @@ export async function detaliiViteza() {
 }
 
 
-const date = await detaliiViteza();
+// const date = await detaliiViteza();
 console.log(date.length)

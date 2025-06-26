@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Submit Data</title>
+    <style>
+        #suggestions {
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            background: white;
+            z-index: 10;
+            width: 300px;
+        }
+        .suggestion-item {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+        #selectedList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .selected-tag {
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: default;
+        }
+        .selected-tag .remove {
+            margin-left: 6px;
+            color: red;
+            cursor: pointer;
+        }
+        .input-container {
+            position: relative;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+<h1>Submit Traffic Data</h1>
+
+<form id="dataForm">
+    <label>
+        Select Streets:
+        <div class="input-container">
+            <input type="text" id="streetInput" placeholder="Type to search..." autocomplete="off" />
+            <div id="suggestions"></div>
+        </div>
+    </label>
+    <div id="selectedList"></div>
+    <input type="hidden" id="streetList" name="streetList" required />
+    <br/><br/>
+
+    <label>
+        Time Set Tag:
+        <select id="timeSetTag" name="timeSetTag" required>
+            <option value="morning_rush">Morning Rush</option>
+            <option value="around_noon">Around Noon</option>
+            <option value="evening_rush">Evening Rush</option>
+            <option value="rest_hours">Rest Hours</option>
+        </select>
+    </label>
+    <br/><br/>
+
+    <label>
+        Method:
+        <select id="method" name="method" required>
+            <option value="harmonic_avg_speed">Harmonic Average</option>
+            <option value="median_speed">Median</option>
+            <option value="avg_speed">Average</option>
+        </select>
+    </label>
+    <br/><br/>
+    <label>
+        Start Year:
+        <select id="startYear" name="startYear" required>
+            <option value="2013" selected>2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+        </select>
+    </label>
+    <br/><br/>
+    <button type="submit">Submit</button>
+</form>
+
+<pre id="responseOutput"></pre>
+
+<script src="app.js"></script>
+</body>
+</html>

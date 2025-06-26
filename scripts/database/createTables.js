@@ -45,6 +45,7 @@ const createTablesSQL = `
     );
 `;
 
+
 const run = async () => {
   try {
     await pool.query(createTablesSQL);
@@ -55,4 +56,4 @@ const run = async () => {
   }
 };
 
-run();
+// run();

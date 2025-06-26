@@ -91,12 +91,13 @@ const insertRoadsSegments = async () => {
     const lanes_bus_backward = feature.properties['lanes:bus:backward'];
     const oneway = feature.properties.oneway;
     const facing = feature.facing;
+    const length = feature.length;
 
     try {
       await pool.query(
-        `INSERT INTO roads_segments (id_segment, id_road, street_name, lanes_total, lanes_forward, lanes_backward, lanes_bus_forward, lanes_bus_backward, oneway, facing)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-        [id_segment, id_road, street_name, lanes_total, lanes_forward, lanes_backward, lanes_bus_forward, lanes_bus_backward, oneway, facing]
+        `INSERT INTO roads_segments (id_segment, id_road, street_name, lanes_total, lanes_forward, lanes_backward, lanes_bus_forward, lanes_bus_backward, oneway, facing, length)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+        [id_segment, id_road, street_name, lanes_total, lanes_forward, lanes_backward, lanes_bus_forward, lanes_bus_backward, oneway, facing, length]
       );
       inserted++;
     } catch (err) {
@@ -115,7 +116,7 @@ const stationsPath = path.join(__dirname, '../../data/json/STATIONS.json');
 
 const stations = JSON.parse(fs.readFileSync(stationsPath, 'utf-8'));
 
-const insertstations = async () => {
+const insertStations = async () => {
   const features = stations.features || [];
   let inserted = 0;
 
@@ -142,7 +143,7 @@ const insertstations = async () => {
   await pool.end();
 };
 
-// insertstations();
+// insertStations();
 
 const speedTomTomPath = path.join(__dirname, '../../data/json/SPEED_TOMTOM.json');
 
