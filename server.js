@@ -22,15 +22,7 @@ app.get('/healthcheck', (req, res) => {
 // 👇 Serve static files from "public"
 app.use(express.static('public'));
 
-// POST /data
-// app.post('/data', (req, res) => {
-//     const receivedData = req.body;
-//
-//     res.json({
-//         message: 'Data received successfully',
-//         data: receivedData,
-//     });
-// });
+
 
 // Start server
 app.listen(port, () => {
@@ -39,7 +31,6 @@ app.listen(port, () => {
 
 app.post('/data', (req, res) => {
     const { streetList, timeSetTag, method, startYear } = req.body;
-
     // Basic validation
     if (!Array.isArray(streetList) || !streetList.every(s => typeof s === 'string')) {
         return res.status(400).json({ error: 'streetList must be an array of strings' });

@@ -1,0 +1,84 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.left-panel {
+  width: 33.33%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ccc;
+}
+
+#map {
+  width: 66.66%;
+  height: 100vh;
+}
+
+form label {
+  display: block;
+  margin-bottom: 15px;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 6px;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 8px 16px;
+  margin-top: 10px;
+}
+
+#suggestions {
+  position: absolute;
+  border: 1px solid #ccc;
+  background: white;
+  z-index: 10;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.suggestion-item {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #f0f0f0;
+}
+
+#selectedList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.selected-tag {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.selected-tag .remove {
+  margin-left: 6px;
+  color: red;
+  cursor: pointer;
+}
+
+.input-container {
+  position: relative;
+}

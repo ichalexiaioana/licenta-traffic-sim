@@ -8,14 +8,13 @@ export async function detaliiCompleteDrumuri() {
         for (const road of roadsRes.rows) {
             const { id_road, street_name_overpass, id_tomtom } = road;
 
-            // 1. Segmente și stații
             const segRes = await pool.query(`SELECT * FROM roads_segments WHERE id_road = $1`, [id_road]);
             const segments = [];
 
             for (const segment of segRes.rows) {
                 const stationsRes = await pool.query(`
-          SELECT pt_lanes FROM stations WHERE id_segment = $1
-        `, [segment.id_segment]);
+                SELECT pt_lanes FROM stations WHERE id_segment = $1
+                `, [segment.id_segment]);
 
                 let sum_pt_lanes = 0;
                 for (const statie of stationsRes.rows) {
@@ -24,14 +23,12 @@ export async function detaliiCompleteDrumuri() {
                         sum_pt_lanes += ptLanesValue;
                     }
                 }
-
                 segments.push({
                     ...segment,
                     sum_pt_lanes
                 });
             }
 
-            // 2. Viteze și limită de viteză
             let speed_details = [];
             let speed_limit = null;
 
@@ -50,7 +47,6 @@ export async function detaliiCompleteDrumuri() {
                 }
             }
 
-            // Combinăm totul într-un singur obiect
             results.push({
                 id_road,
                 road_name: street_name_overpass,

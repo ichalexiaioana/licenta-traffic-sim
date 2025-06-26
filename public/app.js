@@ -60,7 +60,7 @@ function renderSelected() {
 
         const removeBtn = document.createElement('span');
         removeBtn.className = 'remove';
-        removeBtn.textContent = '✕';
+        removeBtn.textContent = 'x';
         removeBtn.onclick = () => {
             selected.splice(index, 1);
             renderSelected();
@@ -108,6 +108,7 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
         });
 
         const result = await res.json();
+        console.log(result)
         const congestie = result.congestie;
         responseContainer.innerHTML =
             `<p>Nivelul de congestie este de ${(congestie*100).toFixed(2)}%</p>

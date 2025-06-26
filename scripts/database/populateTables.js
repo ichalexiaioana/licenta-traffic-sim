@@ -83,6 +83,7 @@ const insertRoadsSegments = async () => {
   for (const feature of features) {
     const id_segment = feature.id_segment;
     const id_road = feature.id_road;
+    const highway = feature.properties.highway;
     const street_name = feature.name;
     const lanes_total = feature.properties.lanes;
     const lanes_forward = feature.properties['lanes:forward'];
@@ -90,14 +91,15 @@ const insertRoadsSegments = async () => {
     const lanes_bus_forward = feature.properties['lanes:bus:forward'];
     const lanes_bus_backward = feature.properties['lanes:bus:backward'];
     const oneway = feature.properties.oneway;
-    const facing = feature.facing;
     const length = feature.length;
+    const facing = feature.facing;
+
 
     try {
       await pool.query(
-        `INSERT INTO roads_segments (id_segment, id_road, street_name, lanes_total, lanes_forward, lanes_backward, lanes_bus_forward, lanes_bus_backward, oneway, facing, length)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-        [id_segment, id_road, street_name, lanes_total, lanes_forward, lanes_backward, lanes_bus_forward, lanes_bus_backward, oneway, facing, length]
+        `INSERT INTO roads_segments (id_segment, id_road, highway, street_name, lanes_total, lanes_forward, lanes_backward, lanes_bus_forward, lanes_bus_backward, oneway, length, facing)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+        [id_segment, id_road, highway, street_name, lanes_total, lanes_forward, lanes_backward, lanes_bus_forward, lanes_bus_backward, oneway, length, facing]
       );
       inserted++;
     } catch (err) {

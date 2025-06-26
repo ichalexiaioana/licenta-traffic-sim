@@ -53,7 +53,7 @@ export function calculeazaShifturiMedii(startYear = 2013) {
     }
   };
 
-  const startIndex = ani.findIndex(an => an === startYear);
+  const startIndex = ani.findIndex(an => an === parseInt(startYear));
   if (startIndex > 1) {
     const filteredDiffMasini = difMasini.slice(startIndex - 1);
     const filteredDiffVanzari = difVanzari.slice(startIndex - 1);

@@ -17,6 +17,7 @@ const createTablesSQL = `
     CREATE TABLE IF NOT EXISTS ROADS_SEGMENTS (
         id_segment TEXT PRIMARY KEY,
         id_road TEXT REFERENCES ROADS(id_road),
+        highway TEXT,
         street_name TEXT,
         lanes_total INTEGER,
         lanes_forward INTEGER,
@@ -24,6 +25,7 @@ const createTablesSQL = `
         lanes_bus_forward INTEGER,
         lanes_bus_backward INTEGER,
         oneway BOOLEAN,
+        length NUMERIC(10, 2),
         facing TEXT CHECK (facing IN ('N', 'S', 'E', 'V'))
     );
 
@@ -44,6 +46,12 @@ const createTablesSQL = `
         avg_speed NUMERIC(10, 2)
     );
 `;
+
+const createTablesSQL1 = `
+ALTER TABLE ROADS_SEGMENTS
+ADD COLUMN length NUMERIC(10, 2),
+ADD COLUMN highway TEXT;
+`
 
 
 const run = async () => {
