@@ -113,7 +113,7 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
         });
 
         const result = await res.json();
-        console.log(result)
+        // console.log(result)
         const congestie = result.congestie;
         responseContainer.innerHTML =
             `<p>Nivelul de congestie este de ${(congestie*100).toFixed(2)}%</p>
