@@ -46,5 +46,5 @@ export async function detaliiDrumuri() {
 }
 
 // const date = await detaliiDrumuri();
-console.log(date.length)
+// console.log(date.length)
 // console.dir(date, { depth: null });

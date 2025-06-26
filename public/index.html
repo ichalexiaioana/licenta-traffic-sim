@@ -10,11 +10,11 @@
 <body>
   <div class="layout">
     <div class="left-panel">
-      <h1>Submit Traffic Data</h1>
+      <h1>Configuratia strazilor</h1>
 
       <form id="dataForm">
         <label>
-          Select Streets:
+          Selecteaza strazile echipate cu banda unica:
           <div class="input-container">
             <input type="text" id="streetInput" placeholder="Type to search..." autocomplete="off" />
             <div id="suggestions"></div>
@@ -25,26 +25,26 @@
         <input type="hidden" id="streetList" name="streetList" required />
 
         <label>
-          Time Set Tag:
+          Selecteaza momentul zilei:
           <select id="timeSetTag" name="timeSetTag" required>
-            <option value="morning_rush">Morning Rush</option>
-            <option value="around_noon" selected>Around Noon</option>
-            <option value="evening_rush">Evening Rush</option>
-            <option value="rest_hours">Rest Hours</option>
+            <option value="morning_rush">Dimineata (06-10)</option>
+            <option value="around_noon" selected>Pranz (10-16)</option>
+            <option value="evening_rush">Seara (16-20)</option>
+            <option value="rest_hours">Orele de odihna (20-24, 00-06)</option>
           </select>
         </label>
 
         <label>
-          Method:
+          Metoda de calculat viteza medie:
           <select id="method" name="method" required>
-            <option value="harmonic_avg_speed">Harmonic Average</option>
-            <option value="median_speed" selected>Median</option>
-            <option value="avg_speed">Average</option>
+            <option value="harmonic_avg_speed">Media armonica</option>
+            <option value="median_speed" selected>Mediana</option>
+            <option value="avg_speed">Media aritmetica</option>
           </select>
         </label>
 
         <label>
-          Start Year:
+          An de referinta pentru indicele de inlocuire:
           <select id="startYear" name="startYear" required>
             <option value="2013" selected>2013</option>
             <option value="2014">2014</option>
@@ -60,7 +60,7 @@
           </select>
         </label>
 
-        <button type="submit">Submit</button>
+        <button type="submit">Calculeaza</button>
       </form>
 
       <pre id="responseOutput"></pre>
