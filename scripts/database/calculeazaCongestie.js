@@ -22,9 +22,9 @@ const input = {
     startYear: 2013,
 };
 
-const detalii = await detaliiCompleteDrumuri();
-const procesat = proceseazaDateDrumuri(detalii, input);
-const indici = calculeazaIndiciiDrumuri(procesat, input);
-const congestie = calculeazaCongestie(indici, input);
+// const detalii = await detaliiCompleteDrumuri();
+// const procesat = proceseazaDateDrumuri(detalii, input);
+// const indici = calculeazaIndiciiDrumuri(procesat, input);
+// const congestie = calculeazaCongestie(indici, input);
 
 // console.log(congestie, indici[0]);

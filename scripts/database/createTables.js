@@ -47,11 +47,6 @@ const createTablesSQL = `
     );
 `;
 
-const createTablesSQL1 = `
-ALTER TABLE ROADS_SEGMENTS
-ADD COLUMN length NUMERIC(10, 2),
-ADD COLUMN highway TEXT;
-`
 
 
 const run = async () => {

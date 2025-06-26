@@ -25,10 +25,15 @@ function updateSuggestions(inputVal) {
 
     if (!inputVal) return;
 
+    const seenTomTomNames = new Set();
+
     const matches = items.features
         .filter(item =>
             normalize(item.name_overpass).includes(normalize(inputVal)) &&
-            !selected.some(sel => sel.id_road === item.id_road)
+            !selected.some(sel => sel.id_road === item.id_road) &&
+            item.name_tomtom &&
+            !seenTomTomNames.has(item.name_tomtom) &&
+            seenTomTomNames.add(item.name_tomtom)
         )
         .sort((a, b) => a.name_overpass.localeCompare(b.name_overpass));
 
