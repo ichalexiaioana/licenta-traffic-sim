@@ -9,18 +9,17 @@ export function calculeazaCongestie(indiciDrumuri, input){
         congestie += (indici.time_idx);
     })
     const avgShift = calculeazaShifturiMedii(input.startYear);
-    console.log(input.startYear)
-    console.log(avgShift);
     const avgShiftVal = avgShift?.partial?.diferenta ? avgShift.partial.diferenta : avgShift.total.diferenta;
     const replacementIndex = (100 - avgShiftVal) / 100;
     return parseFloat((congestie * replacementIndex / indiciDrumuri.length).toFixed(4));
 }
-const input = {
-    streetList: [],
-    timeSetTag: 'around_noon',
-    method: 'median_speed',
-    startYear: 2013,
-};
+
+// const input = {
+//     streetList: [],
+//     timeSetTag: 'around_noon',
+//     method: 'median_speed',
+//     startYear: 2013,
+// };
 
 // const detalii = await detaliiCompleteDrumuri();
 // const procesat = proceseazaDateDrumuri(detalii, input);

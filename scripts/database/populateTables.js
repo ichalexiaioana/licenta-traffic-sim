@@ -145,7 +145,7 @@ const insertStations = async () => {
   await pool.end();
 };
 
-insertStations();
+// insertStations();
 
 const speedTomTomPath = path.join(__dirname, '../../data/json/SPEED_TOMTOM.json');
 

@@ -1,5 +1,11 @@
+const map = L.map('map').setView([44.4268, 26.1025], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
 let items = [];
 let selected = [];
+const selectedOnMap = new Map();
 
 function normalize(str) {
     return str
@@ -19,7 +25,7 @@ async function loadItems() {
     }
 }
 
-function updateSuggestions(inputVal) {
+async function updateSuggestions(inputVal) {
     const suggestions = document.getElementById('suggestions');
     suggestions.innerHTML = '';
 
@@ -41,10 +47,10 @@ function updateSuggestions(inputVal) {
         const div = document.createElement('div');
         div.className = 'suggestion-item';
         div.textContent = item.name_overpass;
-        div.onclick = () => {
+        div.onclick = async () => {
             if (!selected.some(sel => sel.id_road === item.id_road)) {
                 selected.push(item);
-                renderSelected();
+                await renderSelected(item, 'add');
             }
             document.getElementById('streetInput').value = '';
             suggestions.innerHTML = '';
@@ -54,12 +60,11 @@ function updateSuggestions(inputVal) {
     });
 }
 
-function renderSelected() {
+async function renderSelected(item, action) {
     const container = document.getElementById('selectedList');
-    container.innerHTML = '';
-
-    selected.forEach((item, index) => {
+    if(action==='add'){
         const tag = document.createElement('div');
+        tag.setAttribute('id', item.id_road)
         tag.className = 'selected-tag';
         tag.textContent = item.name_overpass;
 
@@ -67,18 +72,54 @@ function renderSelected() {
         removeBtn.className = 'remove';
         removeBtn.textContent = 'x';
         removeBtn.onclick = () => {
-            selected.splice(index, 1);
-            renderSelected();
+            selected = selected.filter(obj => obj.id_road !== item.id_road);
+            renderSelected(item, 'remove');
         };
 
         tag.appendChild(removeBtn);
         container.appendChild(tag);
-    });
 
-    document.getElementById('streetList').value = document.getElementById('streetList').value = selected.map(s => s.id_road).join(',');;
+                const query = `
+            [out:json][timeout:25];
+            area["name"="București"]->.searchArea;
+            way["name"="${item.name_overpass}"]["highway"~"primary|secondary|tertiary"](area.searchArea);
+            out body;
+            >;
+            out skel qt;
+        `;
+        try{
+            const resOverpass = await fetch("https://overpass-api.de/api/interpreter", {
+                method: "POST",
+                body: query,
+            });
+            const data = await resOverpass.json();
+            const resServer = await fetch('/map', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            const resJson = await resServer.json();
+            const coordsSets = resJson.coords.features.map((entry)=> {
+                return entry.geometry;
+            });
+            const layer = L.geoJSON(coordsSets, {color: 'red'}).addTo(map);
+            selectedOnMap.set(item.id_road, layer);
+
+        }catch(err){
+            console.error(err.message)
+        }
+        
+    }
+    else if (action=='remove'){
+        container.removeChild(document.getElementById(item.id_road));
+        const layer = selectedOnMap.get(item.id_road);
+        layer.removeFrom(map);
+        selectedOnMap.delete(item.id_road);
+    }
+    document.getElementById('streetList').value = selected.map(s => s.id_road).join(',');
 }
 
-document.getElementById('streetInput').addEventListener('input', (e) => {
+document.getElementById('streetInput').addEventListener('input', async (e) => {
     updateSuggestions(e.target.value);
 });
 
@@ -113,10 +154,9 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
         });
 
         const result = await res.json();
-        // console.log(result)
         const congestie = result.congestie;
         responseContainer.innerHTML =
-            `<p>Nivelul de congestie este de ${(congestie*100).toFixed(2)}%</p>
+            `<p>Nivelul congestiei este de ${(congestie*100).toFixed(2)}%</p>
         `;
     } catch (err) {
         responseContainer.textContent = 'Error: ' + err.message;

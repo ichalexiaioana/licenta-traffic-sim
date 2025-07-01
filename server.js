@@ -3,6 +3,7 @@ import {detaliiCompleteDrumuri} from "./scripts/database/detaliiCompleteDrumuri.
 import {proceseazaDateDrumuri} from "./scripts/database/procesareDateDrumuri.js";
 import {calculeazaIndiciiDrumuri} from "./scripts/database/calculeazaIndici.js";
 import {calculeazaCongestie} from "./scripts/database/calculeazaCongestie.js";
+import osmtogeojson from 'osmtogeojson';
 
 const validTimeSetTags = ['evening_rush', 'around_noon', 'morning_rush', 'rest_hours'];
 const validMethods = ['harmonic_avg_speed', 'median_speed', 'avg_speed'];
@@ -14,24 +15,21 @@ const port = 3000;
 
 app.use(express.json());
 
-// GET /healthcheck
+
 app.get('/healthcheck', (req, res) => {
     res.json({ status: 'ok', message: 'Server is healthy' });
 });
 
-// 👇 Serve static files from "public"
+
 app.use(express.static('public'));
 
-
-
-// Start server
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
 });
 
 app.post('/data', (req, res) => {
     const { streetList, timeSetTag, method, startYear } = req.body;
-    // Basic validation
+
     if (!Array.isArray(streetList) || !streetList.every(s => typeof s === 'string')) {
         return res.status(400).json({ error: 'streetList must be an array of strings' });
     }
@@ -42,6 +40,10 @@ app.post('/data', (req, res) => {
 
     if (!validMethods.includes(method)) {
         return res.status(400).json({ error: `method must be one of: ${validMethods.join(', ')}` });
+    }
+
+    if(!validStartYears.includes(startYear)) {
+        return res.status(400).json({ error: `year must be one of: ${validStartYears.join(', ')}` });
     }
 
     const input = {
@@ -63,17 +65,16 @@ app.post('/data', (req, res) => {
             });
         })
         .catch(err => {
-            console.error('❌ Eroare în procesarea cererii:', err);
-            res.status(500).json({ error: 'Eroare internă la procesare' });
+            console.error(err);
+            res.status(500).json({ error: 'err 500' });
         });
-    // console.log(JSON.stringify(streetList, null, 2));
-    //
-    // res.json({
-    //     // SEND DATA HEEERE
-    //     message: 'Data received successfully',
-    //     streetList,
-    //     timeSetTag,
-    //     method,
-    //     startYear,
-    // });
+
 });
+
+app.post('/map', (req, res) => {
+    const coords = osmtogeojson(req.body);
+    res.json({
+        message: 'got the json',
+        coords
+    })
+})
