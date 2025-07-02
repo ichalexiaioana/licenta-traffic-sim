@@ -10,12 +10,7 @@ body {
 }
 
 .left-panel {
-  width: 33.33%;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  background-color: #f9f9f9;
-  border-right: 1px solid #ccc;
+  z-index: 0;
 }
 
 #map {
@@ -81,4 +76,24 @@ button {
 
 .input-container {
   position: relative;
+}
+
+
+#left-panel {
+  width: 33.33%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ccc;
+   z-index: 20;
+}
+
+.left-panel-loading-state {
+  opacity: 0.1;
+  background-color: red;
+}
+
+.left-panel-loading-state:hover{
+  cursor: wait !important;
 }

@@ -63,6 +63,8 @@ async function updateSuggestions(inputVal) {
 async function renderSelected(item, action) {
     const container = document.getElementById('selectedList');
     if(action==='add'){
+        const menu = document.getElementById('left-panel');
+        menu.classList.add('left-panel-loading-state');
         const tag = document.createElement('div');
         tag.setAttribute('id', item.id_road)
         tag.className = 'selected-tag';
@@ -104,6 +106,7 @@ async function renderSelected(item, action) {
             });
             const layer = L.geoJSON(coordsSets, {color: 'red'}).addTo(map);
             selectedOnMap.set(item.id_road, layer);
+            menu.classList.remove('left-panel-loading-state');
 
         }catch(err){
             console.error(err.message)
