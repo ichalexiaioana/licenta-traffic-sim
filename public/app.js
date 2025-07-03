@@ -136,7 +136,7 @@ document.addEventListener('click', (e) => {
 const responseContainer = document.getElementById('responseOutput');
 document.getElementById('dataForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    responseContainer.innerHTML = '<p>Se calculeaza...</p>';
+    responseContainer.innerHTML = '<h2>Se calculeaza...</h2>';
 
     const streetList = document.getElementById('streetList').value
         .split(',')
@@ -159,7 +159,7 @@ document.getElementById('dataForm').addEventListener('submit', async (e) => {
         const result = await res.json();
         const congestie = result.congestie;
         responseContainer.innerHTML =
-            `<p>Nivelul congestiei este de ${(congestie*100).toFixed(2)}%</p>
+            `<h2>Nivelul congestiei este de ${(congestie*100).toFixed(2)}%</h2>
         `;
     } catch (err) {
         responseContainer.textContent = 'Error: ' + err.message;
